@@ -3177,5 +3177,3 @@ include_once("cabecera.php");
     ?>
 	</body>
 </html>
->>>>>>> 67b9d8beec03587331a9986c9bfb0d95733989d4
->>>>>>> 725c9a181c70eb8810dc17fda6787650d2625bbf
