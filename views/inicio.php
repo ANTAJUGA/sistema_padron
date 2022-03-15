@@ -56,9 +56,7 @@
 		
         <?php include_once("pie.php"); ?>
         </body>
-<<<<<<< HEAD
-=======
-=======
+
 <?php 
 	include_once("../controllers/controladorSesion.php");
 
@@ -117,6 +115,4 @@
 		
         <?php include_once("pie.php"); ?>
         </body>
->>>>>>> 67b9d8beec03587331a9986c9bfb0d95733989d4
->>>>>>> 725c9a181c70eb8810dc17fda6787650d2625bbf
 </html>

@@ -203,5 +203,5 @@ $cedulas= array("1400412001",
 //$objeto->obtener_lista('padronp',$cedulas,$conexion);
 //echo $objeto->guardar_adherente('prueba','1401089634',1,1,1,$conexion);
 //echo $objeto->actualizar_adherente('1400962344','ANTUNI TANDU JUAN GABRIEL',53,1,1,$conexion);
-
+//echo $objeto->obterner_clave($conexion)['genera'];
 ?>

@@ -43,7 +43,14 @@ class Persona{
 
         $resultado = $conexion->query($query, MYSQLI_USE_RESULT);
         $datos = mysqli_fetch_assoc($resultado);
-        
+
+        return $datos;
+    }
+    //obtener clave or fecha
+    function obterner_clave($conexion){
+        $query="SELECT DATE_FORMAT(fecha,'%Y-%m-%d') AS fecha,genera from claves where fecha=DATE_FORMAT( DATE_SUB(NOW(),INTERVAL 5 HOUR),'%Y-%m-%d')";
+        $resultado = $conexion->query($query, MYSQLI_USE_RESULT);
+        $datos = mysqli_fetch_assoc($resultado);
         return $datos;
     }
     //obtener datos de una lista concreta

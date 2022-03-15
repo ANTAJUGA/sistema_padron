@@ -14,6 +14,7 @@ $usuario_creacion= $_POST['usuario_creacion'];
 $clave=$_POST['clave'];
 $objeto= new Persona();
 $boleano = new ValidarIdentificacion();
+$genera=$objeto->obterner_clave($conexion)['genera'];
 
 if($boleano->validarCedula($busqueda)>0){
    $guardar=$objeto->guardar_adherente($apellido_nombre,$busqueda,$parroquia_id,$sexo_id,$usuario_creacion,$conexion);
@@ -22,7 +23,7 @@ if($boleano->validarCedula($busqueda)>0){
         header('location:../views/adherenteView.php?estado=guardado');
         //header('');
    }else{
-      if($clave=='12345678'){
+      if($clave==$genera){
          $actualizar = $objeto->actualizar_adherente($busqueda, $apellidos, $parroquia_id, $sexo_id, $usuario_creacion, $conexion);
          header('location:../views/adherenteView.php?estado=actualizado');
         //echo "error al guardar no se permite duplicado";
