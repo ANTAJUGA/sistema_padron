@@ -38,19 +38,35 @@ if ($boleano->validarCedula($buscar_padron) > 0) {
                 </div>
             </div>
             <br><br>
-            <div>
-                <label>Cantón</label>
+            <?php if ($usuario_c['tipo_usuario'] > 1) { ?>
                 <div>
-                    <input class="col-xs-12 col-sm-12 center" type="text" id="" placeholder="" value="<?php echo $usuario_c['nombre'] ?>" readonly />
+                    <label>Cantón</label>
+                    <div>
+                        <input class="col-xs-12 col-sm-12 center" type="text" id="" placeholder="" value="<?php echo $usuario_c['nombre'] ?>" readonly />
+                    </div>
                 </div>
-            </div>
-            <br><br>
-            <div>
-                <label>Parroquia</label>
+                <br><br>
                 <div>
-                    <?php $objeto->select_datos('parroquia', 'parroquia_id', $conexion) ?>
+                    <label>Parroquia</label>
+                    <div>
+                        <?php $objeto->select_canton_usuario('parroquia', $usuario_c['id'], $conexion) ?>
+                    </div>
                 </div>
-            </div>
+            <?php } else { ?>
+                <div>
+                    <label>Cantón</label>
+                    <div>
+                        <?php $objeto->select_datos_js('canton', 'canton_id', 'recargarParroquia()', $conexion); ?>
+                    </div>
+                </div>
+                <br><br>
+                <div>
+                    <label>Parroquia</label>
+                    <div id="parroquia">
+                        <?php $objeto->select_datos('', '', ''); ?>
+                    </div>
+                </div>
+            <?php } ?>
             <br><br>
             <div>
                 <label>Sexo</label>
@@ -64,7 +80,7 @@ if ($boleano->validarCedula($buscar_padron) > 0) {
     <?php
     } else if ($persona['id'] > 0) {
     ?>
-    <script>
+        <script>
             //PARA ACTIVIAR EL BOTON GUARDAR SI SE ENCUENTRA UN DATO
             $("#guardar").prop('disabled', false);
         </script>
@@ -86,14 +102,14 @@ if ($boleano->validarCedula($buscar_padron) > 0) {
             <div>
                 <label>Cantón</label>
                 <div>
-                    <?php $objeto->select_datos_js('canton','canton_id','recargarParroquia()',$conexion); ?>
+                    <?php $objeto->select_datos_js('canton', 'canton_id', 'recargarParroquia()', $conexion); ?>
                 </div>
             </div>
             <br><br>
             <div>
                 <label>Parroquia</label>
                 <div id="parroquia">
-                    <?php $objeto->select_datos('','',''); ?>
+                    <?php $objeto->select_datos('', '', ''); ?>
                 </div>
             </div>
             <br><br>

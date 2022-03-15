@@ -33,6 +33,7 @@ include_once("cabecera.php");
 							</script>
 
 							<div class="col-xs-12">
+								
 								<div class="col-xs-9">
 									<!--LINK DE MODAL-->
 									<h4 class="pink">
@@ -51,6 +52,10 @@ include_once("cabecera.php");
 							</div>
 						</div>
 						<br><br><br>
+						<div class=" row col-xs-12">
+
+							<?php include_once('AjaxViews/cargarMensaje.php');?>									
+						</div>
 						<div class="col-xs-12">
 							<?php
 							$objeto->tabla_padron_canton($_SESSION['id'], $conexion);
