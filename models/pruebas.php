@@ -204,13 +204,17 @@ $cedulas= array("1400412001",
 //echo $objeto->guardar_adherente('prueba','1401089634',1,1,1,$conexion);
 //echo $objeto->actualizar_adherente('1400962344','ANTUNI TANDU JUAN GABRIEL',53,1,1,$conexion);
 //echo $objeto->obterner_clave($conexion)['genera'];
-date_default_timezone_set('America/Guayaquil'); 
-$hora = date('H:i:s', time());
+
 //echo $hora;
-if ($hora >= '11:35:00' and  $hora <= '11:40:00') {
-    echo 'acceder';
+$hora= $objeto->obtener_hora($conexion);
+
+$hora_inicio = date_create("12:00:00");
+$hora_fin = date_create("14:00:00");
+if ($hora >= "12:00:00" and  $hora <= "14:00:00") {
+    echo 'acceso';
 } else {
-    echo 'no puede acceder';
+    echo ' no acceso';
 }
+
 
 ?>

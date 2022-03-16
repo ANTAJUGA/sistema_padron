@@ -381,7 +381,14 @@ class Persona{
         $datos = mysqli_fetch_assoc($resultado);
         return $datos['usuario_modificacion'];
     }
-    
+    //obtener fecha de servidor
+    function obtener_hora($conexion){
+        //$query="SELECT DATE_FORMAT( DATE_SUB(NOW(),INTERVAL 5 HOUR) ,'%H:%i:%S') as hora";
+        $query ="SELECT DATE_FORMAT(now(),'%H:%i:%s') as hora";
+        $resultado = mysqli_query($conexion, $query);
+        $datos = mysqli_fetch_assoc($resultado);
+        return $datos['hora'];
+    }    
 }
 
 class ValidarIdentificacion
