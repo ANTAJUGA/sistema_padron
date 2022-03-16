@@ -48,8 +48,8 @@ class Persona{
     }
     //obtener clave or fecha
     function obterner_clave($conexion){
-        //$query="SELECT DATE_FORMAT(fecha,'%Y-%m-%d') AS fecha,genera from claves where fecha=DATE_SUB(NOW(),INTERVAL ".Constantes::HORA_EC." HOUR),'%Y-%m-%d')";
-        $query="SELECT DATE_FORMAT(fecha,'%Y-%m-%d') AS fecha,genera from claves where fecha=DATE_FORMAT(NOW(),'%Y-%m-%d')";
+        $query="SELECT DATE_FORMAT(fecha,'%Y-%m-%d') AS fecha,genera from claves where fecha=DATE_FORMAT(DATE_SUB(NOW(), INTERVAL ".Constantes::HORA_EC." HOUR),'%Y-%m-%d')";
+        //$query="SELECT DATE_FORMAT(fecha,'%Y-%m-%d') AS fecha,genera from claves where fecha=DATE_FORMAT(NOW(),'%Y-%m-%d')";
         $resultado = $conexion->query($query, MYSQLI_USE_RESULT);
         $datos = mysqli_fetch_assoc($resultado);
         return $datos;
@@ -384,7 +384,7 @@ class Persona{
     }
     //obtener fecha de servidor MODIFICAR la consulta del hora al ervidor
     function obtener_hora($conexion){
-        //$query="SELECT DATE_SUB(NOW(),INTERVAL ".Constantes::HORA_EC." HOUR),'%H:%i:%S') as hora";
+        //$query="SELECT DATE_FORMAT(DATE_SUB(NOW(), INTERVAL ".Constantes::HORA_EC." HOUR),'%H:%i:%S') as hora";
         $query ="SELECT DATE_FORMAT(now(),'%H:%i:%s') as hora";
         $resultado = mysqli_query($conexion, $query);
         $datos = mysqli_fetch_assoc($resultado);
