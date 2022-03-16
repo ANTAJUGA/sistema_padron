@@ -5,15 +5,14 @@ include_once('../models/claseGeneral.php');
 //date_default_timezone_set('America/Guayaquil'); 
 $objeto = new Persona(); ///descansar un rato mucha programacion
 $hora = $objeto->obtener_hora($conexion);
-
-if ($hora > "08:00:00" and  $hora< "17:00:00") {
+//para verificar el horario de sesion
+if ($hora > "08:00:00" and  $hora< "17:15:00") {
     session_start();
     if(!$_SESSION['id']){//SINO ESTA LOGEAFO EN CUALQUIER PAGINA
         header("location:../index.php");//regresamos al inicio de todo
     }
 } else {
     include_once('controladorCerrarSesion.php');
-    header("location:../index.php");//regresamos al inicio de todo
+    header("location:../index.php?estado=apagado");//regresamos al inicio de todo
 }
-
 ?>
