@@ -203,10 +203,10 @@ $cedulas= array("1400412001",
 //$objeto->obtener_lista('padronp',$cedulas,$conexion);
 //echo $objeto->guardar_adherente('prueba','1401089634',1,1,1,$conexion);
 //echo $objeto->actualizar_adherente('1400962344','ANTUNI TANDU JUAN GABRIEL',53,1,1,$conexion);
-//echo $objeto->obterner_clave($conexion)['genera'];
+echo $objeto->obterner_clave($conexion)['genera'];
 
 //echo $hora;
-$hora= $objeto->obtener_hora($conexion);
+/*$hora= $objeto->obtener_hora($conexion);
 
 $hora_inicio = date_create("12:00:00");
 $hora_fin = date_create("14:00:00");
@@ -215,6 +215,6 @@ if ($hora >= "12:00:00" and  $hora <= "14:00:00") {
 } else {
     echo ' no acceso';
 }
-
+*/
 
 ?>

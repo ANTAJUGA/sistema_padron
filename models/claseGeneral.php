@@ -48,7 +48,8 @@ class Persona{
     }
     //obtener clave or fecha
     function obterner_clave($conexion){
-        $query="SELECT DATE_FORMAT(fecha,'%Y-%m-%d') AS fecha,genera from claves where fecha=DATE_SUB(NOW(),INTERVAL ".Constantes::HORA_EC." HOUR),'%Y-%m-%d')";
+        //$query="SELECT DATE_FORMAT(fecha,'%Y-%m-%d') AS fecha,genera from claves where fecha=DATE_SUB(NOW(),INTERVAL ".Constantes::HORA_EC." HOUR),'%Y-%m-%d')";
+        $query="SELECT DATE_FORMAT(fecha,'%Y-%m-%d') AS fecha,genera from claves where fecha=DATE_FORMAT(NOW(),'%Y-%m-%d')";
         $resultado = $conexion->query($query, MYSQLI_USE_RESULT);
         $datos = mysqli_fetch_assoc($resultado);
         return $datos;

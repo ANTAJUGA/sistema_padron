@@ -31,8 +31,6 @@ if($boleano->validarCedula($busqueda)>0){
             //echo "error al guardar no se permite duplicado";
             header('location:../views/adherenteView.php?estado=modificado');
          }
-         
-       
       }
       else{
          //echo "error al guardar no se permite cedula inválida";

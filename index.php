@@ -7,7 +7,7 @@
 <head>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 	<meta charset="utf-8" />
-	<title>Login Page - Ace Admin</title>
+	<title>Mupp Listas 18</title>
 
 	<meta name="description" content="User login page" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
@@ -44,27 +44,30 @@
 		<div class="main-content">
 			<div class="row">
 				<div class="col-sm-10 col-sm-offset-1">
-					<br><br><br><br><br>
+					<br><br>
 					<div class="login-container">
-						<div class="center">
-							<h1>
-								<i class="ace-icon glyphicon glyphicon-grain green"></i>
-								<span class="green">IST</span>
-								<span class="white" id="id-text2">SUCÚA</span>
-							</h1>
-						</div>
 
-						<div class="space-6"></div>
+
+
 
 						<div class="position-relative">
+
 							<div id="login-box" class="login-box visible widget-box no-border">
+
 								<div class="widget-body">
 									<div class="widget-main">
+										<div class="center" style="background-color: #F7F7F7">
+											<h1>
+												<div>
+													<img src="views/assets/images/portada/pacha.png" width="100%" />
+												</div><!-- /.row -->
+											</h1>
+										</div>
 										<?php include_once('views/AjaxViews/cargarMensaje.php') ?>
-										
-										<h4 class="header blue lighter bigger center">
+
+										<h4 class="blue  bigger center">
 											<i class="ace-icon fa fa-coffee green"></i>
-											LOGIN
+											<span class="blue">LOGIN</span>
 										</h4>
 
 										<div class="space-6"></div>
@@ -73,14 +76,14 @@
 											<fieldset>
 												<label class="block clearfix">
 													<span class="block input-icon input-icon-right">
-														<input name="usuario" type="text" class="form-control" placeholder="Username" />
+														<input name="usuario" type="text" class="form-control center" placeholder="Usuario" />
 														<i class="ace-icon fa fa-user"></i>
 													</span>
 												</label>
 
 												<label class="block clearfix">
 													<span class="block input-icon input-icon-right">
-														<input name="clave" type="password" class="form-control" placeholder="Password" />
+														<input name="clave" type="password" class="form-control center" placeholder="Contraseña" />
 														<i class="ace-icon fa fa-lock"></i>
 													</span>
 												</label>
