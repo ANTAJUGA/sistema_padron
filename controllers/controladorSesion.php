@@ -8,6 +8,7 @@ if ($hora >= '08:00:00' and  $hora <= '17:15:00') {
         header("location:../index.php");//regresamos al inicio de todo
     }
 } else {
+    include_once('controladorCerrarSesion.php');
     header("location:../index.php");//regresamos al inicio de todo
 }
 

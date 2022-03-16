@@ -89,25 +89,8 @@
 							include_once("template/settings.php")
 						?>
 
-						<div class="page-header">
-                                <div>
-                                    <img  src="" width="100%" />
-                                </div>
-                        </div><!-- /.page-header -->
+						
 
-						<div class="row">
-							<div class="col-xs-12">
-								<!-- PAGE CONTENT BEGINS -->
-								<?php 
-								
-								?>
-								
-								<div>
-									<img src="assets/images/portada/inicio.png" width="100%" />
-								</div><!-- /.row -->
-								<!-- PAGE CONTENT ENDS -->
-							</div><!-- /.col -->
-						</div><!-- /.row -->
 					</div><!-- /.page-content -->
 				</div>
 			</div><!-- /.main-content -->
