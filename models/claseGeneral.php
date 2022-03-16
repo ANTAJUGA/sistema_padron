@@ -147,11 +147,13 @@ class Persona{
                     $consulta="SELECT id ,
                                       eliminado,
                                       usuario_creacion,
+                                      usuario_modificacion,
                                       parroquia_id ,
                                       identificacion, 
                                       apellido_nombre ,
-                                      fecha_ingreso 
-                                      from padronp FORCE INDEX (PRIMARY) ORDER BY id desc limit 10";
+                                      fecha_ingreso,
+                                      fecha_modifica 
+                                      from padronp FORCE INDEX (PRIMARY) ORDER BY id desc limit 15";
         $resultado= mysqli_query($conexion,$consulta);
             ?>
                 <table id="simple-table" class="table  table-bordered table-hover">
@@ -164,6 +166,8 @@ class Persona{
                             <th>Parroquia</th>
                             <th>Fecha Registro</th>
                             <th>Usuario Registro</th>
+                            <th>Fecha Modificación</th>
+                            <th>Usuario Modificación</th>
                             <th>Estado Sistema</th>
                         </tr>
                     </thead>
@@ -174,6 +178,7 @@ class Persona{
                             $parroquia = $objeto->Obtener_Datos('parroquia FORCE INDEX (PRIMARY)','id',$datos['parroquia_id'],$conexion);
                             $canton = $objeto->Obtener_Datos('canton FORCE INDEX (PRIMARY)','id',$parroquia['canton_id'],$conexion);
                             $usuario = $objeto->Obtener_Datos('usuario FORCE INDEX (PRIMARY)','id',$datos['usuario_creacion'],$conexion);
+                            $usuario_m=$objeto->Obtener_Datos('usuario FORCE INDEX (PRIMARY)','id',$datos['usuario_modificacion'],$conexion);
                         ?>
                         <tr>
                             <td>
@@ -196,6 +201,12 @@ class Persona{
                             </td>
                             <td>
                                 <?php echo $usuario['username'] ?>	
+                            </td>
+                            <td>
+                                <?php echo $datos['fecha_modifica'] ?>	
+                            </td>
+                            <td>
+                                <?php echo $usuario_m['username'] ?>	
                             </td>
                             <td>
                                 <?php if( $datos['eliminado']==1){?> <span class="label label-success arrowed">DISPONIBLE</span> 
@@ -216,10 +227,12 @@ class Persona{
                     $consulta="SELECT id ,
                                       eliminado,
                                       usuario_creacion,
+                                      usuario_modificacion,
                                       parroquia_id ,
                                       identificacion, 
                                       apellido_nombre ,
-                                      fecha_ingreso 
+                                      fecha_ingreso,
+                                      fecha_modifica 
                                       from padronp FORCE INDEX (PRIMARY) where usuario_creacion = $usuario_creacion ORDER BY id desc limit 15";
         $resultado= mysqli_query($conexion,$consulta);
             ?>
@@ -233,6 +246,8 @@ class Persona{
                             <th>Parroquia</th>
                             <th>Fecha Registro</th>
                             <th>Usuario Registro</th>
+                            <th>Fecha Modificación</th>
+                            <th>Usuario Modificación</th>
                             <th>Estado Sistema</th>
                         </tr>
                     </thead>
@@ -243,6 +258,7 @@ class Persona{
                             $parroquia = $objeto->Obtener_Datos('parroquia FORCE INDEX (PRIMARY)','id',$datos['parroquia_id'],$conexion);
                             $canton = $objeto->Obtener_Datos('canton FORCE INDEX (PRIMARY)','id',$parroquia['canton_id'],$conexion);
                             $usuario = $objeto->Obtener_Datos('usuario FORCE INDEX (PRIMARY)','id',$datos['usuario_creacion'],$conexion);
+                            $usuario_m=$objeto->Obtener_Datos('usuario FORCE INDEX (PRIMARY)','id',$datos['usuario_modificacion'],$conexion);
                         ?>
                         <tr>
                             <td>
@@ -267,6 +283,12 @@ class Persona{
                                 <?php echo $usuario['username'] ?>	
                             </td>
                             <td>
+                                <?php echo $datos['fecha_modifica'] ?>	
+                            </td>
+                            <td>
+                                <?php echo $usuario_m['username'] ?>	
+                            </td>
+                            <td>
                                 <?php if( $datos['eliminado']==1){?> <span class="label label-success arrowed">DISPONIBLE</span> 
                                 <?php }else{?> <span class="label label-danger arrowed">ELIMINADO</span> <?php }  ?>	
                             </td>
@@ -280,8 +302,7 @@ class Persona{
         $conexion->close();
     }
     //mostrar los select de cada tabla
-    function select_datos($tabla,$name, $conexion)
-    {
+    function select_datos($tabla,$name, $conexion){
         $query = "SELECT * from  $tabla FORCE INDEX (PRIMARY)";
         $resultado = mysqli_query($conexion, $query);
         ?> 
@@ -297,8 +318,7 @@ class Persona{
         </select>
         <?php 
     }
-    function select_datos_js($tabla,$name,$eventJs, $conexion)
-    {
+    function select_datos_js($tabla,$name,$eventJs, $conexion){
         $query = "SELECT * from  $tabla FORCE INDEX (PRIMARY)";
         $resultado = mysqli_query($conexion, $query);
         ?> 
@@ -315,8 +335,7 @@ class Persona{
         <?php 
     }
     //tablas por canton del usuario
-    function select_canton_usuario($tabla,$canton_id, $conexion)
-    {
+    function select_canton_usuario($tabla,$canton_id, $conexion){
         $query = "SELECT * from $tabla FORCE INDEX (PRIMARY)  where canton_id=$canton_id";
         $resultado = mysqli_query($conexion, $query);
         ?> 
@@ -354,6 +373,13 @@ class Persona{
         $resultado= mysqli_query($conexion,$consulta);
         $datos = mysqli_fetch_assoc($resultado);
         return $datos;
+    }
+    //obterner el la modificacion del adherente
+    function datos_modifica($conexion,$identificacion){
+        $query="SELECT usuario_modificacion from padronp FORCE INDEX (PRIMARY) where identificacion=$identificacion";
+        $resultado = $conexion->query($query, MYSQLI_USE_RESULT);
+        $datos = mysqli_fetch_assoc($resultado);
+        return $datos['usuario_modificacion'];
     }
     
 }

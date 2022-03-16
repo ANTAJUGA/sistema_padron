@@ -57,8 +57,13 @@ include_once("cabecera.php");
 							<?php include_once('AjaxViews/cargarMensaje.php');?>									
 						</div>
 						<div class="col-xs-12">
+							
 							<?php
-							$objeto->tabla_padron_canton($_SESSION['id'], $conexion);
+							if ($_SESSION['tipo_usuario'] > 1) {
+								$objeto->tabla_padron_canton($_SESSION['id'], $conexion);
+							} else {
+								$objeto->tabla_padron($conexion);
+							}
 							?>
 						</div>
 						<!-- FORMULARIO DEL MODAL -->

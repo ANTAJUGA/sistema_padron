@@ -24,13 +24,19 @@ if($boleano->validarCedula($busqueda)>0){
         //header('');
    }else{
       if($clave==$genera){
-         $actualizar = $objeto->actualizar_adherente($busqueda, $apellidos, $parroquia_id, $sexo_id, $usuario_creacion, $conexion);
-         header('location:../views/adherenteView.php?estado=actualizado');
-        //echo "error al guardar no se permite duplicado";
+         if($objeto->datos_modifica($conexion,$busqueda)<1){
+            $actualizar = $objeto->actualizar_adherente($busqueda, $apellidos, $parroquia_id, $sexo_id, $usuario_creacion, $conexion);
+            header('location:../views/adherenteView.php?estado=actualizado');
+         }else{
+            //echo "error al guardar no se permite duplicado";
+            header('location:../views/adherenteView.php?estado=modificado');
+         }
+         
+       
       }
       else{
          //echo "error al guardar no se permite cedula inválida";
-         header('location:../views/adherenteView.php?estado=error');
+         header('location:../views/adherenteView.php?estado=error_clave');
       }
       
    }
