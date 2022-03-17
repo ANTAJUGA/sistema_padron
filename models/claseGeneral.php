@@ -1,38 +1,44 @@
-<?php 
+<?php
 include_once('constantes.php');
-class Persona{
+class Persona
+{
     //PARA GUARDAR CON LOS DATOS EN EL SERVIDOR MENOS 5 HORAS
     //UPDATE reflinki_padron.usuario SET persona_Id=1, username='aguila', fecha_modifica=DATE_SUB(NOW(),INTERVAL 5 HOUR) WHERE id=2;
     //VERIFICAR USUARIO
 
-    function sesion_usuario($usuario,$clave,$conexion) {//funcion para verificar usuario repetidos
-        $consulta = "SELECT * FROM usuario where username='$usuario' and password='$clave' and activo=".Constantes::ESTADO_ACTIVO." and eliminado=".Constantes::ESTADO_ELIMINADO;
+    function sesion_usuario($usuario, $clave, $conexion)
+    { //funcion para verificar usuario repetidos
+        $consulta = "SELECT * FROM usuario where username='$usuario' and password='$clave' and activo=" . Constantes::ESTADO_ACTIVO . " and eliminado=" . Constantes::ESTADO_ELIMINADO;
         $resultado = mysqli_query($conexion, $consulta);
         return mysqli_num_rows($resultado); //retornamos un valor  
     }
 
-    function fila_usuario($usuario,$clave,$conexion) {//funcion para obtener datos de un usuario espcifico
+    function fila_usuario($usuario, $clave, $conexion)
+    { //funcion para obtener datos de un usuario espcifico
         $consulta = "SELECT * FROM usuario where username='$usuario' and password='$clave' and activo=1 and eliminado=1";
         $resultado = mysqli_query($conexion, $consulta);
         $datos = mysqli_fetch_assoc($resultado);
         return $datos;
     }
     //guardar usuario
-    function guardar_Usuario($persona_Id,$username,$password,$tipo_usuario,$usuario_creacion,$conexion){
-        $query="INSERT INTO usuario (persona_Id, username, password, fecha_ingreso, tipo_usuario, usuario_creacion, activo, eliminado) 
-                                                VALUES($persona_Id, '$username', '$password', DATE_SUB(NOW(),INTERVAL ".Constantes::HORA_EC." HOUR),$tipo_usuario, $usuario_creacion,".Constantes::ESTADO_ACTIVO." , ".Constantes::ESTADO_ELIMINADO.")";
+    function guardar_Usuario($persona_Id, $username, $password, $tipo_usuario, $usuario_creacion, $conexion)
+    {
+        $query = "INSERT INTO usuario (persona_Id, username, password, fecha_ingreso, tipo_usuario, usuario_creacion, activo, eliminado) 
+                                                VALUES($persona_Id, '$username', '$password', DATE_SUB(NOW(),INTERVAL " . Constantes::HORA_EC . " HOUR),$tipo_usuario, $usuario_creacion," . Constantes::ESTADO_ACTIVO . " , " . Constantes::ESTADO_ELIMINADO . ")";
         $resultado = mysqli_query($conexion, $query);
         return $resultado;
     }
     //guardar adherente
-    function guardar_adherente($apellido_nombre,$identificacion,$parroquia_id,$sexo_id,$usuario_creacion,$conexion){
-        $query="INSERT INTO padronp(apellido_nombre,identificacion,parroquia_id,sexo_id,fecha_ingreso,usuario_creacion,activo,eliminado)VALUES('$apellido_nombre','$identificacion',$parroquia_id,$sexo_id,DATE_SUB(NOW(),INTERVAL ".Constantes::HORA_EC." HOUR),$usuario_creacion,".Constantes::ESTADO_ACTIVO." , ".Constantes::ESTADO_ELIMINADO.")";
+    function guardar_adherente($apellido_nombre, $identificacion, $parroquia_id, $sexo_id, $usuario_creacion, $conexion)
+    {
+        $query = "INSERT INTO padronp(apellido_nombre,identificacion,parroquia_id,sexo_id,fecha_ingreso,usuario_creacion,activo,eliminado)VALUES('$apellido_nombre','$identificacion',$parroquia_id,$sexo_id,DATE_SUB(NOW(),INTERVAL " . Constantes::HORA_EC . " HOUR),$usuario_creacion," . Constantes::ESTADO_ACTIVO . " , " . Constantes::ESTADO_ELIMINADO . ")";
         $resultado = mysqli_query($conexion, $query);
         return $resultado;
     }
     //actualizar adherente
-    function actualizar_adherente($identificacion,$apellido_nombre,$parroquia_id,$sexo_id,$usuario_modificacion,$conexion){
-        $query ="UPDATE padronp set apellido_nombre ='$apellido_nombre',parroquia_id=$parroquia_id,sexo_id=$sexo_id,usuario_modificacion=$usuario_modificacion,fecha_modifica = DATE_SUB(NOW(),INTERVAL ".Constantes::HORA_EC." HOUR) WHERE identificacion='$identificacion'";
+    function actualizar_adherente($identificacion, $apellido_nombre, $parroquia_id, $sexo_id, $usuario_modificacion, $conexion)
+    {
+        $query = "UPDATE padronp set apellido_nombre ='$apellido_nombre',parroquia_id=$parroquia_id,sexo_id=$sexo_id,usuario_modificacion=$usuario_modificacion,fecha_modifica = DATE_SUB(NOW(),INTERVAL " . Constantes::HORA_EC . " HOUR) WHERE identificacion='$identificacion'";
         $resultado = mysqli_query($conexion, $query);
         return $resultado;
     }
@@ -47,25 +53,27 @@ class Persona{
         return $datos;
     }
     //obtener clave or fecha
-    function obterner_clave($conexion){
-        $query="SELECT DATE_FORMAT(fecha,'%Y-%m-%d') AS fecha,genera from claves where fecha=DATE_FORMAT(DATE_SUB(NOW(), INTERVAL ".Constantes::HORA_EC." HOUR),'%Y-%m-%d')";
+    function obterner_clave($conexion)
+    {
+        $query = "SELECT DATE_FORMAT(fecha,'%Y-%m-%d') AS fecha,genera from claves where fecha=DATE_FORMAT(DATE_SUB(NOW(), INTERVAL " . Constantes::HORA_EC . " HOUR),'%Y-%m-%d')";
         //$query="SELECT DATE_FORMAT(fecha,'%Y-%m-%d') AS fecha,genera from claves where fecha=DATE_FORMAT(NOW(),'%Y-%m-%d')";
         $resultado = $conexion->query($query, MYSQLI_USE_RESULT);
         $datos = mysqli_fetch_assoc($resultado);
         return $datos;
     }
     //obtener datos de una lista concreta
-    function obtener_lista($tabla,$lista,$conexion){
-        for($i=0;$i < count($lista); $i++){
+    function obtener_lista($tabla, $lista, $conexion)
+    {
+        for ($i = 0; $i < count($lista); $i++) {
             $query = "SELECT * from $tabla FORCE INDEX (PRIMARY) where identificacion= '$lista[$i]'";
             $resultado = mysqli_query($conexion, $query);
             $datos = mysqli_fetch_assoc($resultado);
-            $c=$i+1;
-            echo $c.'->'. $datos['apellido_nombre'].' '.$datos['parroquia_id'].' <br/>';
+            $c = $i + 1;
+            echo $c . '->' . $datos['apellido_nombre'] . ' ' . $datos['parroquia_id'] . ' <br/>';
         }
     }
     //mostrar numero de datos
-    
+
     function Obtener_Numero_Datos($tabla, $CampoConsulta, $dato, $conexion)
     {
         $query = "SELECT * from $tabla where $CampoConsulta=$dato";
@@ -73,79 +81,81 @@ class Persona{
         return mysqli_num_rows($resultado);
     }
     //mostrar tabla de usuarios
-    function tabla_usuario($conexion){
-        $objeto= new Persona();
-        $consulta="SELECT * from padronp p FORCE INDEX (PRIMARY) inner join usuario u on p.id = u.persona_id 
+    function tabla_usuario($conexion)
+    {
+        $objeto = new Persona();
+        $consulta = "SELECT * from padronp p FORCE INDEX (PRIMARY) inner join usuario u on p.id = u.persona_id 
                                            inner join parroquia pa on pa.id = p.parroquia_id 
                                            inner join canton c on c.id =pa.canton_id";
-        $resultado= mysqli_query($conexion,$consulta);
-            ?>
-                <table id="simple-table" class="table  table-bordered table-hover">
-                    <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>Apellidos Nombres</th>
-                            <th>Usuario</th>
-                            <th>Estado Usuario</th>
-                            <th>Estado Sistema</th>
-                            <th>Accion</th>
-                        </tr>
-                    </thead>
+        $resultado = mysqli_query($conexion, $consulta);
+?>
+        <table id="simple-table" class="table  table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Apellidos Nombres</th>
+                    <th>Usuario</th>
+                    <th>Estado Usuario</th>
+                    <th>Estado Sistema</th>
+                    <th>Accion</th>
+                </tr>
+            </thead>
 
-                    <tbody>
-                        <?php
-                        while ($datos = mysqli_fetch_assoc($resultado)){
-                            //$parroquia = $objeto->Obtener_Datos('parroquia','id',$datos['parroquia_id'],$conexion);
-                            //$canton = $objeto->Obtener_Datos('canton','id',$datos['canton_id'],$conexion);
-                            $usuario=$objeto->Obtener_Datos('usuario FORCE INDEX (PRIMARY)','persona_Id',$datos['persona_Id'],$conexion);
-                        ?>
-                        <tr>
-                            <td>
-                                <?php echo $datos['persona_Id'] ?>
-                            </td>
-                            <td>
-                            <?php if( $usuario['tipo_usuario']==1){?> ADMINISTRADOR <i class="fa fa-flag blue bigger-130"></i>
-                                <?php }else{?>DIGITADOR <i class="fa fa-flag orange bigger-130"></i> <?php }  ?>
-                            </td>
-                            <td>
-                                <?php echo $datos['username'] ?>
-                            </td>
-                            <td>
-                                <?php if( $usuario['activo']==1){?> <span class="label label-success arrowed">ACTIVO</span> 
-                                <?php }else{?> <span class="label label-warning arrowed">DESACTIVO</span> <?php }  ?>	
-                            </td>
-                            <td>
-                                <?php if( $usuario['eliminado']==1){?> <span class="label label-success arrowed">DISPONIBLE</span> 
-                                <?php }else{?> <span class="label label-danger arrowed">ELIMINADO</span> <?php }  ?>	
-                            </td>
-                            <td>
+            <tbody>
+                <?php
+                while ($datos = mysqli_fetch_assoc($resultado)) {
+                    //$parroquia = $objeto->Obtener_Datos('parroquia','id',$datos['parroquia_id'],$conexion);
+                    //$canton = $objeto->Obtener_Datos('canton','id',$datos['canton_id'],$conexion);
+                    $usuario = $objeto->Obtener_Datos('usuario FORCE INDEX (PRIMARY)', 'persona_Id', $datos['persona_Id'], $conexion);
+                ?>
+                    <tr>
+                        <td>
+                            <?php echo $datos['persona_Id'] ?>
+                        </td>
+                        <td>
+                            <?php if ($usuario['tipo_usuario'] == 1) { ?> ADMINISTRADOR <i class="fa fa-flag blue bigger-130"></i>
+                                <?php } else { ?>DIGITADOR <i class="fa fa-flag orange bigger-130"></i> <?php }  ?>
+                        </td>
+                        <td>
+                            <?php echo $datos['username'] ?>
+                        </td>
+                        <td>
+                            <?php if ($usuario['activo'] == 1) { ?> <span class="label label-success arrowed">ACTIVO</span>
+                            <?php } else { ?> <span class="label label-warning arrowed">DESACTIVO</span> <?php }  ?>
+                        </td>
+                        <td>
+                            <?php if ($usuario['eliminado'] == 1) { ?> <span class="label label-success arrowed">DISPONIBLE</span>
+                            <?php } else { ?> <span class="label label-danger arrowed">ELIMINADO</span> <?php }  ?>
+                        </td>
+                        <td>
                             <div class="btn-group">
-                                    <button class="btn btn-xs">
-                                        <a onclick="abrirModal(<?php echo $datos['persona_Id']?>),limpiar()"><i class="ace-icon fa fa-eye bigger-120"></i></a>
-                                    </button>
+                                <button class="btn btn-xs">
+                                    <a onclick="abrirModal(<?php echo $datos['persona_Id'] ?>),limpiar()"><i class="ace-icon fa fa-eye bigger-120"></i></a>
+                                </button>
 
-                                    <button class="btn btn-xs btn-success">
-                                        <i class="ace-icon fa fa-pencil bigger-120"></i>
-                                    </button>
+                                <button class="btn btn-xs btn-success">
+                                    <i class="ace-icon fa fa-pencil bigger-120"></i>
+                                </button>
 
-                                    <button class="btn btn-xs btn-danger">
-                                        <i class="ace-icon fa fa-trash-o bigger-120"></i>
-                                    </button>
+                                <button class="btn btn-xs btn-danger">
+                                    <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                                </button>
 
-                                </div>
-                            </td>
-                        </tr>
-                        <?php 
-                        }
-                        ?>
-                </table>
+                            </div>
+                        </td>
+                    </tr>
+                <?php
+                }
+                ?>
+        </table>
 
-            <?php
+    <?php
         $conexion->close();
     }
-    function tabla_padron($conexion){
-        $objeto= new Persona();
-                    $consulta="SELECT id ,
+    function tabla_padron($conexion)
+    {
+        $objeto = new Persona();
+        $consulta = "SELECT id ,
                                       eliminado,
                                       usuario_creacion,
                                       usuario_modificacion,
@@ -155,77 +165,78 @@ class Persona{
                                       fecha_ingreso,
                                       fecha_modifica 
                                       from padronp FORCE INDEX (PRIMARY) ORDER BY id desc limit 15";
-        $resultado= mysqli_query($conexion,$consulta);
-            ?>
-                <table id="simple-table" class="table  table-bordered table-hover">
-                    <thead>
-                        <tr>
-                            <th>Registro</th>
-                            <th>Apellidos Nombres</th>
-                            <th>Identificacion</th>
-                            <th>Cantón</th>
-                            <th>Parroquia</th>
-                            <th>Fecha Registro</th>
-                            <th>Usuario Registro</th>
-                            <th>Fecha Modificación</th>
-                            <th>Usuario Modificación</th>
-                            <th>Estado Sistema</th>
-                        </tr>
-                    </thead>
+        $resultado = mysqli_query($conexion, $consulta);
+    ?>
+        <table id="simple-table" class="table  table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Registro</th>
+                    <th>Apellidos Nombres</th>
+                    <th>Identificacion</th>
+                    <th>Cantón</th>
+                    <th>Parroquia</th>
+                    <th>Fecha Registro</th>
+                    <th>Usuario Registro</th>
+                    <th>Fecha Modificación</th>
+                    <th>Usuario Modificación</th>
+                    <th>Estado Sistema</th>
+                </tr>
+            </thead>
 
-                    <tbody>
-                        <?php
-                        while ($datos = mysqli_fetch_assoc($resultado)){
-                            $parroquia = $objeto->Obtener_Datos('parroquia FORCE INDEX (PRIMARY)','id',$datos['parroquia_id'],$conexion);
-                            $canton = $objeto->Obtener_Datos('canton FORCE INDEX (PRIMARY)','id',$parroquia['canton_id'],$conexion);
-                            $usuario = $objeto->Obtener_Datos('usuario FORCE INDEX (PRIMARY)','id',$datos['usuario_creacion'],$conexion);
-                            $usuario_m=$objeto->Obtener_Datos('usuario FORCE INDEX (PRIMARY)','id',$datos['usuario_modificacion'],$conexion);
-                        ?>
-                        <tr>
-                            <td>
-                                <?php echo $datos['id'] ?>
-                            </td>
-                            <td>
-                            <?php  echo $datos['apellido_nombre']  ?>
-                            </td>
-                            <td>
-                                <?php echo $datos['identificacion'] ?>
-                            </td>
-                            <td>
-                                <?php echo $canton['nombre'] ?>	
-                            </td>
-                            <td>
-                                <?php echo $parroquia['nombre'] ?>	
-                            </td>
-                            <td>
-                                <?php echo $datos['fecha_ingreso'] ?>	
-                            </td>
-                            <td>
-                                <?php echo $usuario['username'] ?>	
-                            </td>
-                            <td>
-                                <?php echo $datos['fecha_modifica'] ?>	
-                            </td>
-                            <td>
-                                <?php echo $usuario_m['username'] ?>	
-                            </td>
-                            <td>
-                                <?php if( $datos['eliminado']==1){?> <span class="label label-success arrowed">DISPONIBLE</span> 
-                                <?php }else{?> <span class="label label-danger arrowed">ELIMINADO</span> <?php }  ?>	
-                            </td>
-                        </tr>
-                        <?php 
-                        }
-                        ?>
-                </table>
+            <tbody>
+                <?php
+                while ($datos = mysqli_fetch_assoc($resultado)) {
+                    $parroquia = $objeto->Obtener_Datos('parroquia FORCE INDEX (PRIMARY)', 'id', $datos['parroquia_id'], $conexion);
+                    $canton = $objeto->Obtener_Datos('canton FORCE INDEX (PRIMARY)', 'id', $parroquia['canton_id'], $conexion);
+                    $usuario = $objeto->Obtener_Datos('usuario FORCE INDEX (PRIMARY)', 'id', $datos['usuario_creacion'], $conexion);
+                    $usuario_m = $objeto->Obtener_Datos('usuario FORCE INDEX (PRIMARY)', 'id', $datos['usuario_modificacion'], $conexion);
+                ?>
+                    <tr>
+                        <td>
+                            <?php echo $datos['id'] ?>
+                        </td>
+                        <td>
+                            <?php echo $datos['apellido_nombre']  ?>
+                        </td>
+                        <td>
+                            <?php echo $datos['identificacion'] ?>
+                        </td>
+                        <td>
+                            <?php echo $canton['nombre'] ?>
+                        </td>
+                        <td>
+                            <?php echo $parroquia['nombre'] ?>
+                        </td>
+                        <td>
+                            <?php echo $datos['fecha_ingreso'] ?>
+                        </td>
+                        <td>
+                            <?php echo $usuario['username'] ?>
+                        </td>
+                        <td>
+                            <?php echo $datos['fecha_modifica'] ?>
+                        </td>
+                        <td>
+                            <?php echo $usuario_m['username'] ?>
+                        </td>
+                        <td>
+                            <?php if ($datos['eliminado'] == 1) { ?> <span class="label label-success arrowed">DISPONIBLE</span>
+                            <?php } else { ?> <span class="label label-danger arrowed">ELIMINADO</span> <?php }  ?>
+                        </td>
+                    </tr>
+                <?php
+                }
+                ?>
+        </table>
 
-            <?php
+    <?php
         $conexion->close();
     }
     //tabla por usuario de canton
-    function tabla_padron_canton($usuario_creacion,$conexion){
-        $objeto= new Persona();
-                    $consulta="SELECT id ,
+    function tabla_padron_canton($usuario_creacion, $conexion)
+    {
+        $objeto = new Persona();
+        $consulta = "SELECT id ,
                                       eliminado,
                                       usuario_creacion,
                                       usuario_modificacion,
@@ -235,161 +246,219 @@ class Persona{
                                       fecha_ingreso,
                                       fecha_modifica 
                                       from padronp FORCE INDEX (PRIMARY) where usuario_creacion = $usuario_creacion ORDER BY id desc limit 15";
-        $resultado= mysqli_query($conexion,$consulta);
-            ?>
-                <table id="simple-table" class="table  table-bordered table-hover">
-                    <thead>
-                        <tr>
-                            <th>Registro</th>
-                            <th>Apellidos Nombres</th>
-                            <th>Identificacion</th>
-                            <th>Cantón</th>
-                            <th>Parroquia</th>
-                            <th>Fecha Registro</th>
-                            <th>Usuario Registro</th>
-                            <th>Fecha Modificación</th>
-                            <th>Usuario Modificación</th>
-                            <th>Estado Sistema</th>
-                        </tr>
-                    </thead>
+        $resultado = mysqli_query($conexion, $consulta);
+    ?>
+        <table id="simple-table" class="table  table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Registro</th>
+                    <th>Apellidos Nombres</th>
+                    <th>Identificacion</th>
+                    <th>Cantón</th>
+                    <th>Parroquia</th>
+                    <th>Fecha Registro</th>
+                    <th>Usuario Registro</th>
+                    <th>Fecha Modificación</th>
+                    <th>Usuario Modificación</th>
+                    <th>Estado Sistema</th>
+                </tr>
+            </thead>
 
-                    <tbody>
-                        <?php
-                        while ($datos = mysqli_fetch_assoc($resultado)){
-                            $parroquia = $objeto->Obtener_Datos('parroquia FORCE INDEX (PRIMARY)','id',$datos['parroquia_id'],$conexion);
-                            $canton = $objeto->Obtener_Datos('canton FORCE INDEX (PRIMARY)','id',$parroquia['canton_id'],$conexion);
-                            $usuario = $objeto->Obtener_Datos('usuario FORCE INDEX (PRIMARY)','id',$datos['usuario_creacion'],$conexion);
-                            $usuario_m=$objeto->Obtener_Datos('usuario FORCE INDEX (PRIMARY)','id',$datos['usuario_modificacion'],$conexion);
-                        ?>
-                        <tr>
-                            <td>
-                                <?php echo $datos['id'] ?>
-                            </td>
-                            <td>
-                            <?php  echo $datos['apellido_nombre']  ?>
-                            </td>
-                            <td>
-                                <?php echo $datos['identificacion'] ?>
-                            </td>
-                            <td>
-                                <?php echo $canton['nombre'] ?>	
-                            </td>
-                            <td>
-                                <?php echo $parroquia['nombre'] ?>	
-                            </td>
-                            <td>
-                                <?php echo $datos['fecha_ingreso'] ?>	
-                            </td>
-                            <td>
-                                <?php echo $usuario['username'] ?>	
-                            </td>
-                            <td>
-                                <?php echo $datos['fecha_modifica'] ?>	
-                            </td>
-                            <td>
-                                <?php echo $usuario_m['username'] ?>	
-                            </td>
-                            <td>
-                                <?php if( $datos['eliminado']==1){?> <span class="label label-success arrowed">DISPONIBLE</span> 
-                                <?php }else{?> <span class="label label-danger arrowed">ELIMINADO</span> <?php }  ?>	
-                            </td>
-                        </tr>
-                        <?php 
-                        }
-                        ?>
-                </table>
+            <tbody>
+                <?php
+                while ($datos = mysqli_fetch_assoc($resultado)) {
+                    $parroquia = $objeto->Obtener_Datos('parroquia FORCE INDEX (PRIMARY)', 'id', $datos['parroquia_id'], $conexion);
+                    $canton = $objeto->Obtener_Datos('canton FORCE INDEX (PRIMARY)', 'id', $parroquia['canton_id'], $conexion);
+                    $usuario = $objeto->Obtener_Datos('usuario FORCE INDEX (PRIMARY)', 'id', $datos['usuario_creacion'], $conexion);
+                    $usuario_m = $objeto->Obtener_Datos('usuario FORCE INDEX (PRIMARY)', 'id', $datos['usuario_modificacion'], $conexion);
+                ?>
+                    <tr>
+                        <td>
+                            <?php echo $datos['id'] ?>
+                        </td>
+                        <td>
+                            <?php echo $datos['apellido_nombre']  ?>
+                        </td>
+                        <td>
+                            <?php echo $datos['identificacion'] ?>
+                        </td>
+                        <td>
+                            <?php echo $canton['nombre'] ?>
+                        </td>
+                        <td>
+                            <?php echo $parroquia['nombre'] ?>
+                        </td>
+                        <td>
+                            <?php echo $datos['fecha_ingreso'] ?>
+                        </td>
+                        <td>
+                            <?php echo $usuario['username'] ?>
+                        </td>
+                        <td>
+                            <?php echo $datos['fecha_modifica'] ?>
+                        </td>
+                        <td>
+                            <?php echo $usuario_m['username'] ?>
+                        </td>
+                        <td>
+                            <?php if ($datos['eliminado'] == 1) { ?> <span class="label label-success arrowed">DISPONIBLE</span>
+                            <?php } else { ?> <span class="label label-danger arrowed">ELIMINADO</span> <?php }  ?>
+                        </td>
+                    </tr>
+                <?php
+                }
+                ?>
+        </table>
 
-            <?php
+    <?php
         $conexion->close();
     }
-    //mostrar los select de cada tabla
-    function select_datos($tabla,$name, $conexion){
-        $query = "SELECT * from  $tabla FORCE INDEX (PRIMARY)";
-        $resultado = mysqli_query($conexion, $query);
-        ?> 
-        <select class="col-xs-12 col-sm-12 center" id="<?php echo $name?>" name="<?php echo $name ?>" required>
-        <option value="" selected disabled>ELIJA OPCION...</option>
-            <?php
-            while ($datos = mysqli_fetch_assoc($resultado)){    
-            ?>
-                <option value="<?php echo $datos['id']; ?>"><?php echo $datos['nombre']; ?></option>
-            <?php 
-            }
-            ?>                     
-        </select>
-        <?php 
+
+    function tabla_imprime_padron($conexion, $canton_id)
+    {
+
+        if ($canton_id < 1) {
+            $consulta = "SELECT * from parroquia FORCE INDEX (PRIMARY)";
+        } else {
+            $consulta = "SELECT * from parroquia FORCE INDEX (PRIMARY) where canton_id=$canton_id";
+        }
+
+        $resultado = mysqli_query($conexion, $consulta);
+    ?>
+        <table class="table  table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>CÓDIGO</th>
+                    <th>NOMBRE PARROQUIA</th>
+                    <th>HOMBRE</th>
+                    <th>MUJER</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <?php
+                while ($datos = mysqli_fetch_assoc($resultado)) {
+                ?>
+                    <tr>
+                        <td>
+                            <?php echo $datos['codigo'] ?>
+                        </td>
+                        <td>
+                            <?php echo $datos['nombre'] ?>
+                        </td>
+                        <td>
+                            <a href="<?php echo $datos['enlace_hombre'] ?>" target="_blank"><?php echo $datos['nombre'].' Hombre' ?></a>
+                        </td>
+                        <td>
+                            <a href="<?php echo $datos['enlace_mujer'] ?>" target="_blank"><?php echo $datos['nombre'].' Mujer' ?></a>
+                        </td>
+
+                    </tr>
+                <?php
+                }
+                ?>
+        </table>
+
+    <?php
+        $conexion->close();
     }
-    function select_datos_js($tabla,$name,$eventJs, $conexion){
+
+
+    //mostrar los select de cada tabla
+    function select_datos($tabla, $name, $conexion)
+    {
         $query = "SELECT * from  $tabla FORCE INDEX (PRIMARY)";
         $resultado = mysqli_query($conexion, $query);
-        ?> 
-        <select class="col-xs-12 col-sm-12 center" onclick="<?php echo $eventJs ?>" id="<?php echo $name?>" name="<?php echo $name ?>" required>
-        <option value="" selected disabled>ELIJA OPCION...</option>
+    ?>
+        <select class="col-xs-12 col-sm-12 center" id="<?php echo $name ?>" name="<?php echo $name ?>" required>
+            <option value="" selected disabled>ELIJA OPCION...</option>
             <?php
-            while ($datos = mysqli_fetch_assoc($resultado)){    
+            while ($datos = mysqli_fetch_assoc($resultado)) {
             ?>
                 <option value="<?php echo $datos['id']; ?>"><?php echo $datos['nombre']; ?></option>
-            <?php 
+            <?php
             }
-            ?>                     
+            ?>
         </select>
-        <?php 
+    <?php
+    }
+    function select_datos_js($tabla, $name, $eventJs, $conexion)
+    {
+        $query = "SELECT * from  $tabla FORCE INDEX (PRIMARY)";
+        $resultado = mysqli_query($conexion, $query);
+    ?>
+        <select class="col-xs-12 col-sm-12 center" onclick="<?php echo $eventJs ?>" id="<?php echo $name ?>" name="<?php echo $name ?>" required>
+            <option value="" selected disabled>ELIJA OPCION...</option>
+            <?php
+            while ($datos = mysqli_fetch_assoc($resultado)) {
+            ?>
+                <option value="<?php echo $datos['id']; ?>"><?php echo $datos['nombre']; ?></option>
+            <?php
+            }
+            ?>
+        </select>
+    <?php
     }
     //tablas por canton del usuario
-    function select_canton_usuario($tabla,$canton_id, $conexion){
+    function select_canton_usuario($tabla, $canton_id, $conexion)
+    {
         $query = "SELECT * from $tabla FORCE INDEX (PRIMARY)  where canton_id=$canton_id";
         $resultado = mysqli_query($conexion, $query);
-        ?> 
+    ?>
         <select class="col-xs-12 col-sm-12 center" id="parroquia_id" name="parroquia_id" required>
             <option value="" selected disabled>ELIJA OPCION...</option>
             <?php
-            while ($datos = mysqli_fetch_assoc($resultado)){    
+            while ($datos = mysqli_fetch_assoc($resultado)) {
             ?>
                 <option value="<?php echo $datos['id']; ?>"><?php echo $datos['nombre']; ?></option>
-            <?php 
+            <?php
             }
-            ?>                     
+            ?>
         </select>
-        <?php 
+<?php
     }
 
     //obtener todos lo datos de usuario por Id de la persona
-    function datos_usuario($id,$conexion){
-        $objeto= new Persona();
-        $consulta="SELECT * from padronp p FORCE INDEX (PRIMARY) inner join usuario u on p.id = u.persona_id 
+    function datos_usuario($id, $conexion)
+    {
+        $objeto = new Persona();
+        $consulta = "SELECT * from padronp p FORCE INDEX (PRIMARY) inner join usuario u on p.id = u.persona_id 
                                            inner join parroquia pa on pa.id = p.parroquia_id 
                                            inner join canton c on c.id =pa.canton_id
                                            where p.id=$id";
-        $resultado= mysqli_query($conexion,$consulta);
+        $resultado = mysqli_query($conexion, $consulta);
         $datos = mysqli_fetch_assoc($resultado);
         return $datos;
     }
     //obntener datos Usuario por su id
-    function datos_id_usuario($id,$conexion){
-        $objeto= new Persona();
-        $consulta="SELECT * from padronp p FORCE INDEX (PRIMARY) inner join usuario u on p.id = u.persona_id 
+    function datos_id_usuario($id, $conexion)
+    {
+        $objeto = new Persona();
+        $consulta = "SELECT * from padronp p FORCE INDEX (PRIMARY) inner join usuario u on p.id = u.persona_id 
                                            inner join parroquia pa on pa.id = p.parroquia_id 
                                            inner join canton c on c.id =pa.canton_id
                                            where u.id=$id";
-        $resultado= mysqli_query($conexion,$consulta);
+        $resultado = mysqli_query($conexion, $consulta);
         $datos = mysqli_fetch_assoc($resultado);
         return $datos;
     }
     //obterner el la modificacion del adherente
-    function datos_modifica($conexion,$identificacion){
-        $query="SELECT usuario_modificacion from padronp FORCE INDEX (PRIMARY) where identificacion=$identificacion";
+    function datos_modifica($conexion, $identificacion)
+    {
+        $query = "SELECT usuario_modificacion from padronp FORCE INDEX (PRIMARY) where identificacion=$identificacion";
         $resultado = $conexion->query($query, MYSQLI_USE_RESULT);
         $datos = mysqli_fetch_assoc($resultado);
         return $datos['usuario_modificacion'];
     }
     //obtener fecha de servidor MODIFICAR la consulta del hora al ervidor
-    function obtener_hora($conexion){
+    function obtener_hora($conexion)
+    {
         //$query="SELECT DATE_FORMAT(DATE_SUB(NOW(), INTERVAL ".Constantes::HORA_EC." HOUR),'%H:%i:%S') as hora";
-        $query ="SELECT DATE_FORMAT(now(),'%H:%i:%s') as hora";
+        $query = "SELECT DATE_FORMAT(now(),'%H:%i:%s') as hora";
         $resultado = mysqli_query($conexion, $query);
         $datos = mysqli_fetch_assoc($resultado);
         return $datos['hora'];
-    }    
+    }
 }
 
 class ValidarIdentificacion
@@ -547,7 +616,7 @@ class ValidarIdentificacion
         }
 
         if (strlen($numero) != $caracteres) {
-            throw new Exception('Valor ingresado debe tener '.$caracteres.' caracteres');
+            throw new Exception('Valor ingresado debe tener ' . $caracteres . ' caracteres');
         }
 
         return true;
@@ -564,7 +633,7 @@ class ValidarIdentificacion
      */
     protected function validarCodigoProvincia($numero)
     {
-        if ($numero < 0 OR $numero > 24) {
+        if ($numero < 0 or $numero > 24) {
             throw new Exception('Codigo de Provincia (dos primeros dígitos) no deben ser mayor a 24 ni menores a 0');
         }
 
@@ -600,7 +669,7 @@ class ValidarIdentificacion
         switch ($tipo) {
             case 'cedula':
             case 'ruc_natural':
-                if ($numero < 0 OR $numero > 5) {
+                if ($numero < 0 or $numero > 5) {
                     throw new Exception('Tercer dígito debe ser mayor o igual a 0 y menor a 6 para cédulas y RUC de persona natural');
                 }
                 break;
@@ -681,7 +750,7 @@ class ValidarIdentificacion
      */
     protected function algoritmoModulo10($digitosIniciales, $digitoVerificador)
     {
-        $arrayCoeficientes = array(2,1,2,1,2,1,2,1,2);
+        $arrayCoeficientes = array(2, 1, 2, 1, 2, 1, 2, 1, 2);
 
         $digitoVerificador = (int)$digitoVerificador;
         $digitosIniciales = str_split($digitosIniciales);
@@ -689,7 +758,7 @@ class ValidarIdentificacion
         $total = 0;
         foreach ($digitosIniciales as $key => $value) {
 
-            $valorPosicion = ( (int)$value * $arrayCoeficientes[$key] );
+            $valorPosicion = ((int)$value * $arrayCoeficientes[$key]);
 
             if ($valorPosicion >= 10) {
                 $valorPosicion = str_split($valorPosicion);
@@ -785,7 +854,7 @@ class ValidarIdentificacion
 
         $total = 0;
         foreach ($digitosIniciales as $key => $value) {
-            $valorPosicion = ( (int)$value * $arrayCoeficientes[$key] );
+            $valorPosicion = ((int)$value * $arrayCoeficientes[$key]);
             $total = $total + $valorPosicion;
         }
 

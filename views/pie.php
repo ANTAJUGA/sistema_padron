@@ -550,7 +550,7 @@
 			let url = window.location.href;
 
 			/// Elementos de li
-			const tabs = ["inicio","guiaView","adherenteView","crearUsuario"];
+			const tabs = ["inicio","guiaView","adherenteView","crearUsuario","imprimirPadronesView"];
 
 			tabs.forEach(e => {
 				/// Agregar .php y ver si lo contiene en la url
