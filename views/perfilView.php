@@ -100,53 +100,57 @@ include_once("cabecera.php");
 										<div class="space-12"></div>
 
 										<div class="profile-user-info profile-user-info-striped">
-											<div class="profile-info-row">
-												<div class="profile-info-name"> Username </div>
+										<div class="profile-info-row">
+												<div class="profile-info-name"> Cedula </div>
 
 												<div class="profile-info-value">
-													<span class="editable" id="username">alexdoe</span>
+													<span class="editable" id="username"><?php echo $usuario['identificacion'] ?> </span>
+												</div>
+											</div>
+											<div class="profile-info-row">
+												<div class="profile-info-name"> Usuario </div>
+
+												<div class="profile-info-value">
+													<span class="editable" id="username"><?php echo $avatar['username'] ?> </span>
 												</div>
 											</div>
 
 											<div class="profile-info-row">
-												<div class="profile-info-name"> Location </div>
+												<div class="profile-info-name"> Ubicacion </div>
 
 												<div class="profile-info-value">
 													<i class="fa fa-map-marker light-orange bigger-110"></i>
-													<span class="editable" id="country">Netherlands</span>
-													<span class="editable" id="city">Amsterdam</span>
+													<span class="editable" id="country"><?php echo $avatar_canton['nombre'] ?></span>
+													<span class="editable" id="city"><?php echo $avatar_parroquia['nombre'] ?></span>
+												</div>
+											</div>
+											<div class="profile-info-row">
+												<div class="profile-info-name"> Registrado </div>
+
+												<div class="profile-info-value">
+													<span class="editable" id="signup"><?php echo $avatar['fecha_ingreso'] ?></span>
 												</div>
 											</div>
 
 											<div class="profile-info-row">
-												<div class="profile-info-name"> Age </div>
+												<div class="profile-info-name"> Tipo Usuario </div>
 
 												<div class="profile-info-value">
-													<span class="editable" id="age">38</span>
+													<span class="editable" id="login">
+														<?php if($avatar['tipo_usuario']==1){?>
+															ADMINISTRADOR
+														<?php }else{?>
+															DIGITADOR
+														<?php }?>
+													</span>
 												</div>
 											</div>
 
 											<div class="profile-info-row">
-												<div class="profile-info-name"> Joined </div>
+												<div class="profile-info-name"> Celular/Teléfono</div>
 
 												<div class="profile-info-value">
-													<span class="editable" id="signup">2010/06/20</span>
-												</div>
-											</div>
-
-											<div class="profile-info-row">
-												<div class="profile-info-name"> Last Online </div>
-
-												<div class="profile-info-value">
-													<span class="editable" id="login">3 hours ago</span>
-												</div>
-											</div>
-
-											<div class="profile-info-row">
-												<div class="profile-info-name"> About Me </div>
-
-												<div class="profile-info-value">
-													<span class="editable" id="about">Editable as WYSIWYG</span>
+													<span class="editable" id="about">00000000000</span>
 												</div>
 											</div>
 										</div>

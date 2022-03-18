@@ -56,6 +56,7 @@
 						</ul>
 
 					</li>
+					<?php if ($_SESSION['tipo_usuario']==1){?>
                     <li class="nav-item" >
 						<a href="#" class="dropdown-toggle">
                         <i class="menu-icon glyphicon  glyphicon-inbox"></i>
@@ -83,6 +84,7 @@
 						</ul>
 
 					</li>
+					
 					<li class="nav-item" >
 						<a href="#" class="dropdown-toggle">
                         <i class="menu-icon fa fa-usd"></i>
@@ -110,6 +112,7 @@
 						</ul>
 
 					</li>
+					<?php } ?>
 					<?php if($_SESSION['tipo_usuario']==1){ ?>
                     <li class="nav-item" id="crearUsuario">
 						<a href="crearUsuario.php">

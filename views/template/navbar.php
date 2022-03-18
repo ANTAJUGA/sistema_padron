@@ -4,6 +4,8 @@ $persona_Id = $_SESSION['persona_Id']; //importante
 $objeto = new Persona();
 $usuario = $objeto->Obtener_Datos('padronp', 'id', $persona_Id, $conexion);
 $avatar = $objeto->Obtener_Datos('usuario', 'id', $id, $conexion);
+$avatar_parroquia=$objeto->Obtener_Datos('parroquia','id',$usuario['parroquia_id'],$conexion);
+$avatar_canton=$objeto->Obtener_Datos('canton','id',$avatar_parroquia['canton_id'],$conexion);
 ?>
 <div id="navbar" class="navbar navbar-default          ace-save-state">
 	<div class="navbar-container ace-save-state" id="navbar-container">

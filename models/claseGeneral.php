@@ -245,7 +245,7 @@ class Persona
                                       apellido_nombre ,
                                       fecha_ingreso,
                                       fecha_modifica 
-                                      from padronp FORCE INDEX (PRIMARY) where usuario_creacion = $usuario_creacion ORDER BY id desc limit 15";
+                                      from padronp FORCE INDEX (PRIMARY) where usuario_creacion = $usuario_creacion or usuario_modificacion = $usuario_creacion ORDER BY id desc limit 15";
         $resultado = mysqli_query($conexion, $consulta);
     ?>
         <table id="simple-table" class="table  table-bordered table-hover">
